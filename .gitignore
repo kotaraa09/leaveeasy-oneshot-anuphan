@@ -51,3 +51,6 @@ tests/accounts.json
 # ไฟล์ทำงานของเครื่องมือออกแบบ
 .impeccable/
 playwright-report/
+
+# ผลการรันเทสต์ — มีภาพหน้าจอและ trace ที่บันทึกรหัสผ่านที่กรอกไว้แบบอ่านออก
+test-results/

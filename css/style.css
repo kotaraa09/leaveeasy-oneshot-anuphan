@@ -1,5 +1,5 @@
 @charset "UTF-8";
-@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Anuphan:wght@400;500;600&family=Martian+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@800&family=Chakra+Petch:wght@500;600;700&family=Anuphan:wght@400;500;600&family=Martian+Mono:wght@400;700&display=swap');
 
 /* ─────────────────────────────────────────────────────────────
    สัญญาของทิศทางงานออกแบบ  (seed key: 1d721dca)
@@ -11,7 +11,7 @@
      ป้ายรัดสายสีส้มคือของที่ยังเปิดอยู่ · หัวข้ออยู่ในเครื่องหมายคำพูดแบบอ้างข้อความราชการ
    STORY — คนเปิดมาเห็นทันทีว่านี่คือระบบที่บันทึกของจริง ไม่ใช่ของเล่น
      ยื่นใบ → ใบถูกติดป้ายส้มว่ายังรอ → หัวหน้าตัดสิน → ป้ายถูกตัด แล้วแถบทแยงขึ้นคลุมว่าแก้ไม่ได้อีก
-   FIRST VIEWPORT — แถบเมนูดำเต็มความกว้างมีเส้นส้มคาดบน ชื่อระบบอยู่ในแผ่นป้ายขาวมีหมุด
+   FIRST VIEWPORT — แถบเมนูดำเต็มความกว้าง ชื่อระบบอยู่ในแผ่นป้ายขาวมีหมุด
      ถัดลงมาคือหัวเรื่องตัวหนาในเครื่องหมายคำพูด แล้วตารางใบลาแบบใบรายการสินค้าคงคลัง
      หัวตารางดำสนิท แถวคั่นด้วยเส้นบาง ปุ่มหลักสีส้มขอบดำอยู่เหนือตารางชิดซ้าย
    FORM — "ป้ายคำในเครื่องหมายคำพูด" (ตัวท้าชิงที่เจ้าของโครงงานเลือกเอง แทนผลการทอย)
@@ -35,6 +35,7 @@
   --เส้น: rgba(10, 10, 10, .16);
 
   /* ── ตัวอักษร ── */
+  --ตัวประกาศ: "Kanit", "Chakra Petch", sans-serif;   /* หัวเรื่องใหญ่ — หนา 800 เท่านั้น */
   --ตัวหนา: "Chakra Petch", "Leelawadee UI", "Segoe UI", sans-serif;
   --ตัวเนื้อ: "Anuphan", "Leelawadee UI", "Segoe UI", sans-serif;
   --ตัวเลข: "Martian Mono", ui-monospace, "Cascadia Mono", monospace;
@@ -62,8 +63,9 @@ body {
 ::selection { background: var(--ส้มนิรภัย); color: var(--หมึก); }
 
 :focus-visible {
-  outline: 3px solid var(--ส้มนิรภัย);
+  outline: 3px solid var(--หมึก);      /* 6.6:1 บนพื้นครีม — ส้มได้แค่ 2.75:1 ตกเกณฑ์ WCAG 1.4.11 */
   outline-offset: 2px;
+  box-shadow: 0 0 0 7px rgba(255, 90, 0, .38);
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -72,7 +74,7 @@ body {
    ───────────────────────────────────────────────────────────── */
 .card,
 .alert,
-.stat,
+.stat-row,
 .comment {
   background-color: var(--แผ่นป้าย);
   background-image:
@@ -83,15 +85,14 @@ body {
   background-repeat: no-repeat;
   border: 2px solid var(--หมึก);
   border-radius: 7px;
-  box-shadow: 0 2px 0 rgba(10, 10, 10, .05), 0 14px 22px -18px rgba(10, 10, 10, .5);
 }
 
 /* ─────────────────────────────────────────────────────────────
-   แถบเมนู — ผ้าไนลอนดำ มีเส้นส้มคาดบนเหมือนแถบสะท้อนแสง
+   แถบเมนู — ผ้าไนลอนดำ ขอบหมึกหนา
    ───────────────────────────────────────────────────────────── */
 .navbar {
   background: var(--ไนลอน);
-  border-top: 5px solid var(--ส้มนิรภัย);
+  border-top: 5px solid var(--หมึก);
   border-bottom: 2px solid var(--หมึก);
   color: var(--แผ่นป้าย);
   padding: 13px 22px;
@@ -105,7 +106,6 @@ body {
   font-family: var(--ตัวหนา);
   font-weight: 700;
   font-size: 17px;
-  letter-spacing: .04em;
   color: var(--หมึก);
   background-color: var(--แผ่นป้าย);
   background-image:
@@ -124,7 +124,6 @@ body {
   font-family: var(--ตัวหนา);
   font-weight: 600;
   font-size: 13.5px;
-  letter-spacing: .09em;
   color: var(--แผ่นป้าย);
   text-decoration: none;
   padding: 3px 0;
@@ -133,8 +132,8 @@ body {
 }
 .navbar a:hover,
 .navbar a.active {
-  color: var(--ส้มนิรภัย);
-  border-bottom-color: var(--ส้มนิรภัย);
+  color: var(--แผ่นป้าย);
+  border-bottom-color: var(--แผ่นป้าย);
 }
 
 .navbar .nav-user {
@@ -143,7 +142,6 @@ body {
   align-items: center;
   gap: 12px;
   font-size: 13.5px;
-  letter-spacing: .04em;
   color: #c9c5bd;
 }
 .navbar .nav-user button,
@@ -164,16 +162,17 @@ body {
 }
 
 h1 {
-  font-family: var(--ตัวหนา);
-  font-weight: 700;
-  font-size: clamp(30px, 4.6vw, 47px);
-  line-height: 1.08;
-  letter-spacing: -.015em;
+  font-family: var(--ตัวประกาศ);
+  font-weight: 800;
+  font-size: clamp(34px, 6.4vw, 76px);
+  line-height: 1.0;
+  letter-spacing: -.025em;
   margin: 6px 0 10px;
   text-wrap: balance;
 }
-h1::before { content: "\201C"; color: var(--ส้มนิรภัย); }
-h1::after  { content: "\201D"; color: var(--ส้มนิรภัย); }
+/* เครื่องหมายคำพูดเป็นหมึกดำเดียวกับตัวอักษร ให้มันเป็นส่วนหนึ่งของก้อนคำ ไม่ใช่เครื่องประดับ */
+h1::before { content: "\201C"; }
+h1::after  { content: "\201D"; }
 
 /* หัวข้อย่อยคือป้ายติดโซน — แผ่นดำตัวขาว เหมือนป้ายบอกโซนในคลังสินค้า */
 h2 {
@@ -181,7 +180,6 @@ h2 {
   font-family: var(--ตัวหนา);
   font-weight: 600;
   font-size: 14px;
-  letter-spacing: .12em;
   background: var(--หมึก);
   color: var(--แผ่นป้าย);
   padding: 6px 16px;
@@ -204,6 +202,18 @@ h2 {
 .container a:not(.btn):not(.stat):hover { background: var(--ส้มนิรภัย); }
 
 .card { padding: 22px 24px; margin-bottom: 22px; }
+
+/* สถานะว่างและกำลังโหลด — js เขียน <p> เดี่ยว ๆ ลงแผ่นป้ายตอนยังไม่มีข้อมูล */
+.card > p:only-child {
+  margin: 0;
+  padding: 26px 4px;
+  color: var(--จาง);
+  font-family: var(--ตัวหนา);
+  font-weight: 500;
+  border: 2px dashed var(--เส้น);
+  border-radius: 5px;
+  text-align: center;
+}
 
 /* ตารางที่อยู่ลำพังในแผ่นป้าย ให้เต็มขอบ หัวตารางดำจะได้กินเต็มความกว้าง
    ไม่ลอยเป็นกล่องซ้อนกล่อง
@@ -237,7 +247,6 @@ th {
   font-family: var(--ตัวหนา);
   font-weight: 600;
   font-size: 12.5px;
-  letter-spacing: .1em;
   background: var(--หมึก);
   color: var(--แผ่นป้าย);
   border-bottom: none;
@@ -266,7 +275,6 @@ tbody tr.clickable:hover {
   font-family: var(--ตัวหนา);
   font-weight: 700;
   font-size: 12.5px;
-  letter-spacing: .07em;
   line-height: 1.5;
   padding: 3px 13px;
   border: 2px solid var(--หมึก);
@@ -274,8 +282,13 @@ tbody tr.clickable:hover {
   white-space: nowrap;
 }
 .badge-รอพิจารณา {
-  background: var(--ส้มนิรภัย);
+  background-color: var(--ส้มนิรภัย);
+  background-image:
+    radial-gradient(circle at 14px 50%, var(--หมึก) 2.6px, transparent 2.7px),
+    radial-gradient(circle at 14px 50%, transparent 4.6px, var(--หมึก) 4.7px, var(--หมึก) 5.6px, transparent 5.7px);
+  background-repeat: no-repeat;
   color: var(--หมึก);
+  padding-left: 27px;
 }
 .badge-อนุมัติ {
   background: var(--หมึก);
@@ -303,7 +316,6 @@ button, .btn {
   font-family: var(--ตัวหนา);
   font-weight: 700;
   font-size: 14px;
-  letter-spacing: .08em;
   padding: 11px 24px;
   border: 2px solid var(--หมึก);
   border-radius: 6px;
@@ -319,25 +331,30 @@ button, .btn {
   text-decoration: none;
   line-height: 1.45;
 }
-button::after, .btn::after {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  inset: 0 0 0 auto;
-  width: 46px;
-  background-image: var(--แถบเตือน);
-  transform: translateX(105%);
-  transition: transform .55s cubic-bezier(.16, 1, .3, 1);
+/* จังหวะเคลื่อนไหวเดียวของทั้งเว็บ: แผ่นป้ายถูกกดลงแนบพื้น
+   ใช้กับทุกชิ้นที่กดได้เหมือนกันหมด ไม่ใช่เอฟเฟกต์กระจัดกระจาย
+   แถบเตือนไม่ถูกใช้ตรงนี้ เพราะมันแปลว่า "แตะไม่ได้แล้ว" ซึ่งขัดกับปุ่มที่กดได้ */
+button, .btn, tbody tr.clickable, .stat {
+  transition: transform .22s cubic-bezier(.16, 1, .3, 1),
+              background-color .16s ease-out;
 }
-button:hover::after, .btn:hover::after { transform: translateX(0); }
+button:hover, .btn:hover { transform: translateY(-2px); }
+button:active, .btn:active { transform: translateY(1px); }
 
+/* กดไม่ได้แล้ว = ติดแถบเตือน · เว้นที่ให้ตัวอักษรพ้นแถบ ไม่ให้ลายทับคำ */
 button:disabled {
   background-color: var(--เทาป้าย);
-  color: var(--จาง);
-  border-color: var(--จาง);
+  background-image: var(--แถบเตือน);
+  background-size: 46px 100%;
+  background-position: right center;
+  background-repeat: no-repeat;
+  color: var(--หมึก);
+  border-color: var(--หมึก);
   cursor: not-allowed;
+  padding-right: 58px;
+  transform: none;
 }
-button:disabled::after { transform: translateX(0); opacity: .35; }
+button:disabled:hover { transform: none; }
 
 .btn-ghost { background-color: var(--แผ่นป้าย); }
 .btn-ok    { background-color: var(--ส้มนิรภัย); }
@@ -345,10 +362,12 @@ button:disabled::after { transform: translateX(0); opacity: .35; }
 /* ไม่อนุมัติ และ ลบ — ติดแถบเตือนค้างไว้ตั้งแต่ยังไม่ชี้ */
 .btn-danger {
   background-color: var(--แผ่นป้าย);
+  background-image: var(--แถบเตือน);
+  background-size: 46px 100%;
+  background-position: right center;
+  background-repeat: no-repeat;
   padding-right: 58px;
 }
-.btn-danger::after { transform: translateX(0); }
-.btn-danger:hover::after { width: 100%; opacity: .16; }
 
 .btn-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
 
@@ -361,11 +380,10 @@ label {
   font-family: var(--ตัวหนา);
   font-weight: 600;
   font-size: 12.5px;
-  letter-spacing: .1em;
   color: var(--จาง);
   margin: 24px 0 7px;
   padding-top: 11px;
-  background-image: linear-gradient(var(--ส้มนิรภัย), var(--ส้มนิรภัย));
+  background-image: linear-gradient(var(--หมึก), var(--หมึก));
   background-size: 16px 3px;
   background-position: 0 0;
   background-repeat: no-repeat;
@@ -407,9 +425,11 @@ textarea { min-height: 128px; resize: vertical; }
   padding: 14px 16px;
   margin: 16px 0;
   font-size: 15px;
+  max-width: 68ch;
 }
-.alert-warn  { border-top: 7px solid var(--ส้มนิรภัย); }
-.alert-ok    { border-top: 7px solid var(--หมึก); }
+.alert-warn  { border-top: 7px solid var(--หมึก); }
+/* บันทึกแล้ว = ประทับดำทึบ เหมือนป้ายสถานะ อนุมัติ */
+.alert-ok    { background-color: var(--หมึก); color: var(--แผ่นป้าย); }
 .alert-error {
   border-top: 7px solid transparent;
   background-image:
@@ -429,12 +449,11 @@ textarea { min-height: 128px; resize: vertical; }
 /* ─────────────────────────────────────────────────────────────
    ความเห็นการอนุมัติ — แผ่นป้ายย่อย ชื่อคนกับเวลาอยู่บรรทัดบน
    ───────────────────────────────────────────────────────────── */
-.comment { padding: 13px 16px; margin-bottom: 12px; }
+.comment { padding: 13px 16px; margin-bottom: 12px; max-width: 68ch; }
 .comment .meta {
   font-family: var(--ตัวหนา);
   font-weight: 600;
   font-size: 12px;
-  letter-spacing: .08em;
   color: var(--จาง);
   display: block;
   margin-bottom: 4px;
@@ -443,29 +462,38 @@ textarea { min-height: 128px; resize: vertical; }
 /* ─────────────────────────────────────────────────────────────
    กล่องตัวเลขสรุป — ช่องเก็บของในคลัง ไม่ใช่การ์ดตัวเลขกลางจอ
    ───────────────────────────────────────────────────────────── */
-.stat-row { display: flex; flex-wrap: wrap; gap: 16px; }
-.stat {
-  flex: 1 1 210px;
-  padding: 18px 20px 16px;
-  text-decoration: none;
-  color: inherit;
+/* ช่องเก็บของในคลัง — บรรทัดต่อบรรทัดในแผ่นป้ายใบเดียว
+   ไม่ใช่การ์ดขนาดเท่ากันสามใบเรียงกัน ซึ่งเป็นแม่แบบที่หน้าไหนก็ใช้ได้โดยไม่ต้องคิด */
+.stat-row {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  overflow: hidden;
+  max-width: 560px;
+}
+.stat {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 14px 20px;
+  text-decoration: none;
+  color: inherit;
+  background: none;
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid var(--เส้น);
   font-family: var(--ตัวหนา);
   font-weight: 600;
-  font-size: 12.5px;
-  letter-spacing: .09em;
-  transition: background-color .16s ease-out;
+  font-size: 14px;
 }
-.stat:hover { background-color: var(--ส้มนิรภัย); }
+.stat:last-child { border-bottom: none; }
+.stat:hover { background-color: var(--เทาป้าย); }
 .stat .number {
   font-family: var(--ตัวเลข);
   font-weight: 700;
-  font-size: 46px;
-  line-height: 1.05;
+  font-size: 30px;
+  line-height: 1;
   letter-spacing: -.05em;
-  align-self: flex-end;
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -484,7 +512,6 @@ textarea { min-height: 128px; resize: vertical; }
   font-family: var(--ตัวหนา);
   font-weight: 600;
   font-size: 12.5px;
-  letter-spacing: .09em;
   color: var(--จาง);
   padding-top: 3px;
 }
@@ -495,12 +522,18 @@ textarea { min-height: 128px; resize: vertical; }
    ภาษาของโลกนี้คือ "ป้ายที่ซัพพลายเออร์แขวนมา" — เส้นประ ไม่ใช่เส้นทึบ
    แปลว่าเป็นของแนบมา ยังไม่ใช่ส่วนหนึ่งของเอกสารจนกว่าคนจะยืนยัน
    ───────────────────────────────────────────────────────────── */
-.ai-box { margin-top: 14px; }
+.ai-box { margin-top: 14px; display: flex; flex-direction: column; align-items: flex-start; }
+
+/* ช่องที่ AI เป็นคนเลือกค่าให้ ต้องดูต่างจากช่องที่คนกรอกเอง จนกว่าคนจะยืนยันหรือแก้
+   #leaveTypeId เป็นพี่น้องที่อยู่ก่อน .ai-box ใน new-leave-request.html */
+select:has(~ .ai-box .ai-pill:not(.hidden)) {
+  border-style: dashed;
+  background-color: #fff7f2;
+}
 
 .btn-ai {
   background-color: var(--แผ่นป้าย);
   background-image: none;
-  border-style: dashed;
   font-size: 12.5px;
   padding: 9px 18px 9px 34px;
 }
@@ -520,12 +553,13 @@ textarea { min-height: 128px; resize: vertical; }
 
 .ai-pill {
   display: inline-block;
-  margin: 10px 0 0 10px;
+  margin: 12px 0 -2px;
   padding: 3px 14px 3px 22px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
   font-family: var(--ตัวหนา);
   font-weight: 700;
   font-size: 11.5px;
-  letter-spacing: .06em;
   background-color: var(--ส้มนิรภัย);
   background-image: radial-gradient(circle at 11px 50%, var(--หมึก) 2px, transparent 2.1px);
   background-repeat: no-repeat;
@@ -536,7 +570,9 @@ textarea { min-height: 128px; resize: vertical; }
 }
 
 .ai-hint {
-  margin: 10px 0 0;
+  margin: 0;
+  align-self: stretch;
+  max-width: 68ch;
   font-size: 14px;
   color: var(--หมึก);
   background: var(--แผ่นป้าย);
@@ -562,7 +598,7 @@ textarea { min-height: 128px; resize: vertical; }
   .container { padding: 22px 14px 60px; }
   .navbar { padding: 9px 14px; gap: 5px 14px; border-top-width: 4px; }
   .navbar .brand { font-size: 15px; padding: 2px 13px; }
-  .navbar a { font-size: 12px; letter-spacing: .06em; }
+  .navbar a { font-size: 12px; }
   .navbar .nav-user { margin-left: 0; width: 100%; font-size: 12px; }
   h1 { letter-spacing: -.01em; }
   .card { padding: 17px 16px; }
@@ -580,7 +616,7 @@ textarea { min-height: 128px; resize: vertical; }
   th, td { padding: 10px 9px; font-size: 14.5px; }
   .hide-mobile { display: none; }
   .field-row .k { min-width: 100%; }
-  .stat .number { font-size: 38px; }
+  .stat .number { font-size: 26px; }
   .btn-row > button, .btn-row > .btn { flex: 1 1 auto; text-align: center; }
 }
 
