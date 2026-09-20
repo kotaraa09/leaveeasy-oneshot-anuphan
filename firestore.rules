@@ -7,6 +7,10 @@ rules_version = '2';
 //   1) ยังไม่ล็อกอิน → อ่าน leaveRequests ไม่ได้เลย
 //   2) ผู้ใช้ B เปิดใบลาของผู้ใช้ A → เข้าไม่ได้ (ยกเว้น manager/hr)
 //
+// ⚠️ ชื่อฟังก์ชันในไฟล์นี้ต้องเป็นภาษาอังกฤษเท่านั้น
+//    ภาษา Security Rules ไม่รับตัวอักษรไทยในชื่อตัวแปร/ฟังก์ชัน (ต่างจาก JavaScript ที่รับได้)
+//    ส่วน "คอมเมนต์" กับ "ข้อความในเครื่องหมายคำพูด" เช่น 'รอพิจารณา' เป็นภาษาไทยได้ตามปกติ
+//
 // ⚠️ แก้ไฟล์นี้แล้วต้องนำขึ้น Firebase Console เอง (Firestore Database → Rules → Publish)
 //    ไม่งั้นกฎใหม่ไม่มีผลกับเว็บจริง
 //
@@ -18,37 +22,39 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    function ล็อกอินอยู่() {
+    // ล็อกอินอยู่หรือยัง
+    function isSignedIn() {
       return request.auth != null;
     }
 
     // อ่านบทบาทของคนที่ล็อกอินอยู่จาก users/{uid} ของตัวเอง
-    function บทบาทของฉัน() {
+    function myRole() {
       return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role;
     }
 
-    function เป็นผู้อนุมัติหรือฝ่ายบุคคล() {
-      return ล็อกอินอยู่() && บทบาทของฉัน() in ['manager', 'hr'];
+    // เป็นผู้อนุมัติหรือฝ่ายบุคคล
+    function isApproverOrHr() {
+      return isSignedIn() && myRole() in ['manager', 'hr'];
     }
 
     // เป็นเจ้าของใบลา (เทียบจากไฟล์ leaveRequests/{requestId} ตรง ๆ)
-    function เป็นเจ้าของใบลา(ข้อมูลใบลา) {
-      return ล็อกอินอยู่() && ข้อมูลใบลา.requesterId == request.auth.uid;
+    function isOwner(requestData) {
+      return isSignedIn() && requestData.requesterId == request.auth.uid;
     }
 
-    // เป็นเจ้าของใบลา (ใช้ตอนอยู่ในโฟลเดอร์ย่อย ต้อง get() ไปดูไฟล์แม่ก่อน)
-    function เป็นเจ้าของใบลาแม่(requestId) {
-      return ล็อกอินอยู่()
+    // เป็นเจ้าของใบลาแม่ (ใช้ตอนอยู่ในโฟลเดอร์ย่อย ต้อง get() ไปดูไฟล์แม่ก่อน)
+    function isOwnerOfParentRequest(requestId) {
+      return isSignedIn()
         && get(/databases/$(database)/documents/leaveRequests/$(requestId)).data.requesterId == request.auth.uid;
     }
 
     // ── 📁 users — โปรไฟล์ผู้ใช้ ──
     match /users/{userId} {
       // ดูโปรไฟล์ตัวเองได้เสมอ · manager/hr ดูของคนอื่นได้ด้วย (ต้องรู้ชื่อ/บทบาท)
-      allow read: if ล็อกอินอยู่() && (request.auth.uid == userId || เป็นผู้อนุมัติหรือฝ่ายบุคคล());
+      allow read: if isSignedIn() && (request.auth.uid == userId || isApproverOrHr());
 
       // สมัครสมาชิกใหม่ได้ไฟล์ users/{uid} ของตัวเองเท่านั้น และ role ต้องเป็น employee เสมอ
-      allow create: if ล็อกอินอยู่()
+      allow create: if isSignedIn()
                     && request.auth.uid == userId
                     && request.resource.data.role == 'employee';
 
@@ -58,43 +64,43 @@ service cloud.firestore {
 
     // ── 📁 leaveTypes — ประเภทการลา ──
     match /leaveTypes/{typeId} {
-      allow read: if ล็อกอินอยู่();
+      allow read: if isSignedIn();
       // ตามตารางบทบาทในสเปกหัวข้อ 2 — เฉพาะฝ่ายบุคคล (hr) แก้ประเภทการลาได้
-      allow create, update, delete: if ล็อกอินอยู่() && บทบาทของฉัน() == 'hr';
+      allow create, update, delete: if isSignedIn() && myRole() == 'hr';
     }
 
     // ── 📁 leaveRequests — ใบขอลา ──
     match /leaveRequests/{requestId} {
 
-      // ★ กันข้อ 1: ยังไม่ล็อกอิน → resource.data ก็ยังไม่มีสิทธิ์ประเมิน request.auth == null ตัดสิทธิ์ทันที
+      // ★ กันข้อ 1: ยังไม่ล็อกอิน → request.auth == null ตัดสิทธิ์ทันที
       // ★ กันข้อ 2: ผู้ใช้ B เปิดใบของ A → requesterId ไม่ตรง และไม่ใช่ manager/hr → ปฏิเสธ
-      allow read: if เป็นเจ้าของใบลา(resource.data) || เป็นผู้อนุมัติหรือฝ่ายบุคคล();
+      allow read: if isOwner(resource.data) || isApproverOrHr();
 
       // ยื่นใบใหม่ได้เฉพาะในนามตัวเอง และต้องเริ่มที่สถานะ รอพิจารณา เสมอ
-      allow create: if ล็อกอินอยู่()
+      allow create: if isSignedIn()
                     && request.resource.data.requesterId == request.auth.uid
                     && request.resource.data.status == 'รอพิจารณา';
 
       // ผู้อนุมัติ/ฝ่ายบุคคล เปลี่ยนสถานะได้ แก้ได้เฉพาะช่อง status ช่องเดียว
       // และเปลี่ยนได้จาก รอพิจารณา ไปเป็น อนุมัติ/ไม่อนุมัติ เท่านั้น (ห้ามย้อนกลับ)
-      allow update: if เป็นผู้อนุมัติหรือฝ่ายบุคคล()
+      allow update: if isApproverOrHr()
                     && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status'])
                     && resource.data.status == 'รอพิจารณา'
                     && request.resource.data.status in ['อนุมัติ', 'ไม่อนุมัติ'];
 
       // ลบได้เฉพาะเจ้าของใบ และใบต้องยังอยู่ในสถานะ รอพิจารณา เท่านั้น (US-07)
-      allow delete: if เป็นเจ้าของใบลา(resource.data) && resource.data.status == 'รอพิจารณา';
+      allow delete: if isOwner(resource.data) && resource.data.status == 'รอพิจารณา';
 
       // ── 📁 approvals — ความเห็นการอนุมัติ (โฟลเดอร์ย่อยของใบลาแต่ละใบ) ──
       match /approvals/{approvalId} {
-        allow read: if เป็นเจ้าของใบลาแม่(requestId) || เป็นผู้อนุมัติหรือฝ่ายบุคคล();
+        allow read: if isOwnerOfParentRequest(requestId) || isApproverOrHr();
 
-        allow create: if ล็อกอินอยู่()
+        allow create: if isSignedIn()
                       && request.resource.data.authorId == request.auth.uid
-                      && (เป็นเจ้าของใบลาแม่(requestId) || เป็นผู้อนุมัติหรือฝ่ายบุคคล());
+                      && (isOwnerOfParentRequest(requestId) || isApproverOrHr());
 
         // ต้องลบพร้อมใบลาแม่เสมอ (ไม่มีฟีเจอร์แก้ไข/ลบทีละความเห็นในสเปกนี้)
-        allow delete: if เป็นเจ้าของใบลาแม่(requestId) || เป็นผู้อนุมัติหรือฝ่ายบุคคล();
+        allow delete: if isOwnerOfParentRequest(requestId) || isApproverOrHr();
         allow update: if false;
       }
     }
