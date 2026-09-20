@@ -44,3 +44,6 @@ firebase-debug.log
 .firebase/
 
 tests/accounts.json
+
+# ผลพลอยได้จาก Playwright MCP (snapshot/log ระหว่างทดสอบ)
+.playwright-mcp/
