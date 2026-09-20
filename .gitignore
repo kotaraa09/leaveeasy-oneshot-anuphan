@@ -47,3 +47,7 @@ tests/accounts.json
 
 # ผลพลอยได้จาก Playwright MCP (snapshot/log ระหว่างทดสอบ)
 .playwright-mcp/
+
+# ไฟล์ทำงานของเครื่องมือออกแบบ
+.impeccable/
+playwright-report/

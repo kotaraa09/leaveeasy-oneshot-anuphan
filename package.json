@@ -4,9 +4,11 @@
   "private": true,
   "description": "LeaveEasy — Lab 4 สัปดาห์ที่ 9 สร้างรอบเดียวจากสเปก",
   "scripts": {
-    "dev": "serve -l 3100 ."
+    "dev": "serve -l 3100 .",
+    "test": "playwright test"
   },
   "devDependencies": {
-    "serve": "^14.2.1"
+    "serve": "^14.2.1",
+    "@playwright/test": "^1.63.0"
   }
 }
