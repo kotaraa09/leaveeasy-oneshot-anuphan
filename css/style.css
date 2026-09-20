@@ -1,189 +1,594 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Anuphan:wght@400;500;600&family=Martian+Mono:wght@400;700&display=swap');
+
 /* ─────────────────────────────────────────────────────────────
-   css/style.css — หน้าตาที่ใช้ร่วมกันทุกหน้าของ LeaveEasy
-   แก้ที่ไฟล์นี้ที่เดียว ทุกหน้าเปลี่ยนตามพร้อมกัน
+   สัญญาของทิศทางงานออกแบบ  (seed key: 1d721dca)
+
+   THESIS — ใบลาคือของที่ถูกติดป้าย ผนึก แล้วเก็บเข้าคลัง ไม่ใช่การ์ดในแดชบอร์ด
+     ปฏิเสธการวางแบบ SaaS: การ์ดขอบมนเงาฟุ้ง ป้ายสถานะแคปซูล สีน้ำเงิน-เทา
+   OWN-WORLD — พื้นผ้าฝ้ายสต๊อกรูม #F2F0EB · หมึกดำ #0A0A0A · ส้มนิรภัย #FF5A00
+     แผ่นป้ายขอบ 2px มีหมุดสี่มุม · แถบเตือนทแยง 45° ใช้เฉพาะตอนที่แปลว่า "แตะไม่ได้แล้ว"
+     ป้ายรัดสายสีส้มคือของที่ยังเปิดอยู่ · หัวข้ออยู่ในเครื่องหมายคำพูดแบบอ้างข้อความราชการ
+   STORY — คนเปิดมาเห็นทันทีว่านี่คือระบบที่บันทึกของจริง ไม่ใช่ของเล่น
+     ยื่นใบ → ใบถูกติดป้ายส้มว่ายังรอ → หัวหน้าตัดสิน → ป้ายถูกตัด แล้วแถบทแยงขึ้นคลุมว่าแก้ไม่ได้อีก
+   FIRST VIEWPORT — แถบเมนูดำเต็มความกว้างมีเส้นส้มคาดบน ชื่อระบบอยู่ในแผ่นป้ายขาวมีหมุด
+     ถัดลงมาคือหัวเรื่องตัวหนาในเครื่องหมายคำพูด แล้วตารางใบลาแบบใบรายการสินค้าคงคลัง
+     หัวตารางดำสนิท แถวคั่นด้วยเส้นบาง ปุ่มหลักสีส้มขอบดำอยู่เหนือตารางชิดซ้าย
+   FORM — "ป้ายคำในเครื่องหมายคำพูด" (ตัวท้าชิงที่เจ้าของโครงงานเลือกเอง แทนผลการทอย)
+
+   FINISH: unreviewed and undocumented is unfinished; this build ends with the
+   finish review, the verdict, and DESIGN.md
+
+   ⚠️ สัญญานี้ควรอยู่ใน HTML ตามคู่มือ แต่รอบนี้ห้ามแตะ HTML เพราะมีเทสต์ Playwright
+      ผูกกับโครงหน้าอยู่ จึงวางไว้ที่หัวไฟล์นี้ซึ่งเป็นชิ้นงานจริงของรอบนี้แทน
    ───────────────────────────────────────────────────────────── */
 
 :root {
-  --สีหลัก: #1f5f8b;
-  --สีหลักเข้ม: #14405f;
-  --สีพื้น: #f4f6f8;
-  --สีขอบ: #d8dee4;
-  --สีตัวอักษร: #22282e;
-  --สีจาง: #667380;
+  /* ── วัสดุ ── */
+  --พื้นสต๊อกรูม: #f2f0eb;   /* ผ้าฝ้ายดิบ — พื้นของทั้งเว็บ */
+  --แผ่นป้าย: #ffffff;       /* ป้ายพลาสติกที่ตอกหมุดติดไว้ */
+  --หมึก: #0a0a0a;           /* หมึกสกรีน */
+  --ไนลอน: #1a1a1a;          /* ผ้าไนลอนดำ — แถบเมนู */
+  --เทาป้าย: #e6e6e6;
+  --ส้มนิรภัย: #ff5a00;      /* ป้ายรัดสาย — ใช้กับของที่ยังเปิดอยู่เท่านั้น */
+  --จาง: #6e6a61;            /* ดึงจากพื้น ไม่ใช่เทากลาง */
+  --เส้น: rgba(10, 10, 10, .16);
+
+  /* ── ตัวอักษร ── */
+  --ตัวหนา: "Chakra Petch", "Leelawadee UI", "Segoe UI", sans-serif;
+  --ตัวเนื้อ: "Anuphan", "Leelawadee UI", "Segoe UI", sans-serif;
+  --ตัวเลข: "Martian Mono", ui-monospace, "Cascadia Mono", monospace;
+
+  /* ── แถบเตือนทแยง — ใช้เฉพาะตอนที่แปลว่า "จบแล้ว แตะไม่ได้" ── */
+  --แถบเตือน: repeating-linear-gradient(45deg,
+      var(--หมึก) 0 6px, transparent 0 12px);
 }
 
 * { box-sizing: border-box; }
 
+html { -webkit-text-size-adjust: 100%; }
+
 body {
   margin: 0;
-  font-family: "Leelawadee UI", "Sarabun", "Segoe UI", "Noto Sans Thai", sans-serif;
-  font-size: 17px;
-  line-height: 1.7;
-  color: var(--สีตัวอักษร);
-  background: var(--สีพื้น);
+  font-family: var(--ตัวเนื้อ);
+  font-size: 16.5px;
+  line-height: 1.65;
+  color: var(--หมึก);
+  background: var(--พื้นสต๊อกรูม);
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* ── แถบเมนูด้านบน ── */
+::selection { background: var(--ส้มนิรภัย); color: var(--หมึก); }
+
+:focus-visible {
+  outline: 3px solid var(--ส้มนิรภัย);
+  outline-offset: 2px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   แผ่นป้ายตอกหมุด — ชิ้นส่วนแม่ของทั้งระบบ
+   หมุดสี่มุมวาดด้วย background-image ไม่ใช้ DOM เพิ่ม
+   ───────────────────────────────────────────────────────────── */
+.card,
+.alert,
+.stat,
+.comment {
+  background-color: var(--แผ่นป้าย);
+  background-image:
+    radial-gradient(circle at 9px 9px, var(--หมึก) 1.6px, transparent 1.7px),
+    radial-gradient(circle at calc(100% - 9px) 9px, var(--หมึก) 1.6px, transparent 1.7px),
+    radial-gradient(circle at 9px calc(100% - 9px), var(--หมึก) 1.6px, transparent 1.7px),
+    radial-gradient(circle at calc(100% - 9px) calc(100% - 9px), var(--หมึก) 1.6px, transparent 1.7px);
+  background-repeat: no-repeat;
+  border: 2px solid var(--หมึก);
+  border-radius: 7px;
+  box-shadow: 0 2px 0 rgba(10, 10, 10, .05), 0 14px 22px -18px rgba(10, 10, 10, .5);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   แถบเมนู — ผ้าไนลอนดำ มีเส้นส้มคาดบนเหมือนแถบสะท้อนแสง
+   ───────────────────────────────────────────────────────────── */
 .navbar {
-  background: var(--สีหลัก);
-  color: #fff;
-  padding: 10px 16px;
+  background: var(--ไนลอน);
+  border-top: 5px solid var(--ส้มนิรภัย);
+  border-bottom: 2px solid var(--หมึก);
+  color: var(--แผ่นป้าย);
+  padding: 13px 22px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 6px 18px;
-}
-.navbar .brand { font-weight: 700; font-size: 20px; margin-right: 10px; }
-.navbar a { color: #fff; text-decoration: none; padding: 4px 2px; }
-.navbar a:hover, .navbar a.active { border-bottom: 3px solid #ffd166; }
-.navbar .nav-user { margin-left: auto; display: flex; align-items: center; gap: 10px; font-size: 15px; }
-
-/* ── กรอบเนื้อหา ── */
-.container { max-width: 960px; margin: 0 auto; padding: 20px 16px 60px; }
-h1 { font-size: 28px; margin: 18px 0 6px; }
-h2 { font-size: 22px; margin: 26px 0 8px; }
-.subtitle { color: var(--สีจาง); margin-top: 0; }
-
-.card {
-  background: #fff;
-  border: 1px solid var(--สีขอบ);
-  border-radius: 10px;
-  padding: 18px;
-  margin-bottom: 18px;
+  gap: 8px 22px;
 }
 
-/* ── ตาราง ── */
-table { width: 100%; border-collapse: collapse; background: #fff; }
-th, td { padding: 10px 12px; border-bottom: 1px solid var(--สีขอบ); text-align: left; }
-th { background: #eef2f5; font-weight: 700; }
-tbody tr.clickable:hover { background: #eaf3fa; cursor: pointer; }
+.navbar .brand {
+  font-family: var(--ตัวหนา);
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: .04em;
+  color: var(--หมึก);
+  background-color: var(--แผ่นป้าย);
+  background-image:
+    radial-gradient(circle at 7px 7px, var(--หมึก) 1.1px, transparent 1.2px),
+    radial-gradient(circle at calc(100% - 7px) 7px, var(--หมึก) 1.1px, transparent 1.2px),
+    radial-gradient(circle at 7px calc(100% - 7px), var(--หมึก) 1.1px, transparent 1.2px),
+    radial-gradient(circle at calc(100% - 7px) calc(100% - 7px), var(--หมึก) 1.1px, transparent 1.2px);
+  background-repeat: no-repeat;
+  border: 2px solid var(--หมึก);
+  border-radius: 5px;
+  padding: 3px 18px;
+  margin-right: 6px;
+}
 
-/* ── ป้ายสถานะ ── */
-.badge {
+.navbar a {
+  font-family: var(--ตัวหนา);
+  font-weight: 600;
+  font-size: 13.5px;
+  letter-spacing: .09em;
+  color: var(--แผ่นป้าย);
+  text-decoration: none;
+  padding: 3px 0;
+  border-bottom: 3px solid transparent;
+  transition: color .18s ease-out, border-color .18s ease-out;
+}
+.navbar a:hover,
+.navbar a.active {
+  color: var(--ส้มนิรภัย);
+  border-bottom-color: var(--ส้มนิรภัย);
+}
+
+.navbar .nav-user {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13.5px;
+  letter-spacing: .04em;
+  color: #c9c5bd;
+}
+.navbar .nav-user button,
+.navbar .nav-user .btn {
+  padding: 5px 14px;
+  font-size: 12.5px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   เนื้อหาและหัวเรื่อง
+   หัวเรื่องอยู่ในเครื่องหมายคำพูด — เป็นการอ้างข้อความแบบเอกสารราชการไทย
+   (เรื่อง "ขอลากิจ") ไม่ใช่การล้อเลียน
+   ───────────────────────────────────────────────────────────── */
+.container {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 34px 22px 80px;
+}
+
+h1 {
+  font-family: var(--ตัวหนา);
+  font-weight: 700;
+  font-size: clamp(30px, 4.6vw, 47px);
+  line-height: 1.08;
+  letter-spacing: -.015em;
+  margin: 6px 0 10px;
+  text-wrap: balance;
+}
+h1::before { content: "\201C"; color: var(--ส้มนิรภัย); }
+h1::after  { content: "\201D"; color: var(--ส้มนิรภัย); }
+
+/* หัวข้อย่อยคือป้ายติดโซน — แผ่นดำตัวขาว เหมือนป้ายบอกโซนในคลังสินค้า */
+h2 {
   display: inline-block;
-  padding: 3px 12px;
-  border-radius: 999px;
-  font-size: 15px;
+  font-family: var(--ตัวหนา);
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: .12em;
+  background: var(--หมึก);
+  color: var(--แผ่นป้าย);
+  padding: 6px 16px;
+  border-radius: 4px;
+  margin: 38px 0 14px;
+}
+
+.subtitle {
+  color: var(--จาง);
+  margin: 0 0 26px;
+  max-width: 62ch;
+}
+
+.container a:not(.btn):not(.stat) {
+  color: var(--หมึก);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--ส้มนิรภัย);
+}
+.container a:not(.btn):not(.stat):hover { background: var(--ส้มนิรภัย); }
+
+.card { padding: 22px 24px; margin-bottom: 22px; }
+
+/* ตารางที่อยู่ลำพังในแผ่นป้าย ให้เต็มขอบ หัวตารางดำจะได้กินเต็มความกว้าง
+   ไม่ลอยเป็นกล่องซ้อนกล่อง
+   · #ผลลัพธ์ ในหน้ารายการ  → ตารางเป็นลูกคนเดียวของ .card  → เต็มทุกด้าน
+   · #ตารางประเภท ในหน้าประเภทการลา → มี h2 อยู่ก่อน         → เต็มเฉพาะข้างและล่าง */
+.card:has(table) { overflow: hidden; }
+.card > table:only-child {
+  margin: -22px -24px;
+  width: calc(100% + 48px);
+}
+.card > div:last-child > table:only-child {
+  margin: 16px -24px -22px;
+  width: calc(100% + 48px);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   ตาราง — ใบรายการสินค้าคงคลัง หัวตารางดำสนิท
+   ───────────────────────────────────────────────────────────── */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--แผ่นป้าย);
+}
+th, td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--เส้น);
+  text-align: left;
+  vertical-align: middle;
+}
+th {
+  font-family: var(--ตัวหนา);
+  font-weight: 600;
+  font-size: 12.5px;
+  letter-spacing: .1em;
+  background: var(--หมึก);
+  color: var(--แผ่นป้าย);
+  border-bottom: none;
   white-space: nowrap;
 }
-.badge-รอพิจารณา { background: #fff3cd; color: #7a5b00; border: 1px solid #ffe08a; }
-.badge-อนุมัติ   { background: #d8f3dc; color: #1b5e34; border: 1px solid #a8dfb8; }
-.badge-ไม่อนุมัติ { background: #fde2e1; color: #8b1f1a; border: 1px solid #f6b8b5; }
+tbody tr:last-child td { border-bottom: none; }
 
-/* ── ปุ่ม ── */
+/* ชื่อใบลาคือชื่อของบนใบรายการ จึงหนักกว่าคอลัมน์อื่น */
+td:first-child { font-family: var(--ตัวหนา); font-weight: 600; }
+
+tbody tr.clickable { cursor: pointer; transition: background-color .14s ease-out; }
+tbody tr.clickable:hover {
+  background: var(--เทาป้าย);
+  outline: 2px solid var(--หมึก);
+  outline-offset: -2px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   ป้ายสถานะ — สามค่า สามวัสดุ แยกออกจากกันได้แม้ตาบอดสี
+     รอพิจารณา  = ป้ายรัดสายสีส้ม ยังไม่ถูกตัด
+     อนุมัติ     = ประทับทับด้วยหมึกดำจนเต็ม ปิดเรื่อง
+     ไม่อนุมัติ  = แถบเตือนทแยง แปลว่าเป็นโมฆะและแก้ต่อไม่ได้
+   ───────────────────────────────────────────────────────────── */
+.badge {
+  display: inline-block;
+  font-family: var(--ตัวหนา);
+  font-weight: 700;
+  font-size: 12.5px;
+  letter-spacing: .07em;
+  line-height: 1.5;
+  padding: 3px 13px;
+  border: 2px solid var(--หมึก);
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.badge-รอพิจารณา {
+  background: var(--ส้มนิรภัย);
+  color: var(--หมึก);
+}
+.badge-อนุมัติ {
+  background: var(--หมึก);
+  color: var(--แผ่นป้าย);
+}
+.badge-ไม่อนุมัติ {
+  background-color: var(--แผ่นป้าย);
+  background-image: var(--แถบเตือน);
+  background-size: 24px 100%;
+  background-position: right center;
+  background-repeat: no-repeat;
+  color: var(--หมึก);
+  padding-right: 32px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   ปุ่ม — แผ่นป้ายตอกหมุด แถบเตือนกวาดเข้าจากขวาตอนชี้
+   นี่คือจังหวะเคลื่อนไหวเดียวของทั้งเว็บ
+   ───────────────────────────────────────────────────────────── */
 button, .btn {
-  font-family: inherit;
-  font-size: 17px;
-  padding: 9px 18px;
-  border-radius: 8px;
-  border: 1px solid var(--สีหลัก);
-  background: var(--สีหลัก);
-  color: #fff;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  display: inline-block;
+  font-family: var(--ตัวหนา);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: .08em;
+  padding: 11px 24px;
+  border: 2px solid var(--หมึก);
+  border-radius: 6px;
+  background-color: var(--ส้มนิรภัย);
+  background-image:
+    radial-gradient(circle at 7px 7px, var(--หมึก) 1.3px, transparent 1.4px),
+    radial-gradient(circle at calc(100% - 7px) 7px, var(--หมึก) 1.3px, transparent 1.4px),
+    radial-gradient(circle at 7px calc(100% - 7px), var(--หมึก) 1.3px, transparent 1.4px),
+    radial-gradient(circle at calc(100% - 7px) calc(100% - 7px), var(--หมึก) 1.3px, transparent 1.4px);
+  background-repeat: no-repeat;
+  color: var(--หมึก);
   cursor: pointer;
   text-decoration: none;
-  display: inline-block;
+  line-height: 1.45;
 }
-button:hover, .btn:hover { background: var(--สีหลักเข้ม); }
-button:disabled { opacity: .55; cursor: not-allowed; }
-.btn-ghost { background: #fff; color: var(--สีหลัก); }
-.btn-ghost:hover { background: #e8f1f8; }
-.btn-danger { background: #b3261e; border-color: #b3261e; }
-.btn-danger:hover { background: #8c1c16; }
-.btn-ok { background: #1b7f45; border-color: #1b7f45; }
-.btn-ok:hover { background: #146134; }
-.btn-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+button::after, .btn::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0 0 0 auto;
+  width: 46px;
+  background-image: var(--แถบเตือน);
+  transform: translateX(105%);
+  transition: transform .55s cubic-bezier(.16, 1, .3, 1);
+}
+button:hover::after, .btn:hover::after { transform: translateX(0); }
 
-/* ── ฟอร์ม ── */
-label { display: block; font-weight: 700; margin: 14px 0 4px; }
+button:disabled {
+  background-color: var(--เทาป้าย);
+  color: var(--จาง);
+  border-color: var(--จาง);
+  cursor: not-allowed;
+}
+button:disabled::after { transform: translateX(0); opacity: .35; }
+
+.btn-ghost { background-color: var(--แผ่นป้าย); }
+.btn-ok    { background-color: var(--ส้มนิรภัย); }
+
+/* ไม่อนุมัติ และ ลบ — ติดแถบเตือนค้างไว้ตั้งแต่ยังไม่ชี้ */
+.btn-danger {
+  background-color: var(--แผ่นป้าย);
+  padding-right: 58px;
+}
+.btn-danger::after { transform: translateX(0); }
+.btn-danger:hover::after { width: 100%; opacity: .16; }
+
+.btn-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+
+/* ─────────────────────────────────────────────────────────────
+   ฟอร์ม — ชื่อช่องมีขีดส้มกำกับบน เหมือนป้ายติดลังสินค้า
+   ขีดวาดด้วย background ไม่ใช้ ::before เพราะจะไปปนกับชื่อที่โปรแกรมอ่านหน้าจอและเทสต์อ่าน
+   ───────────────────────────────────────────────────────────── */
+label {
+  display: block;
+  font-family: var(--ตัวหนา);
+  font-weight: 600;
+  font-size: 12.5px;
+  letter-spacing: .1em;
+  color: var(--จาง);
+  margin: 24px 0 7px;
+  padding-top: 11px;
+  background-image: linear-gradient(var(--ส้มนิรภัย), var(--ส้มนิรภัย));
+  background-size: 16px 3px;
+  background-position: 0 0;
+  background-repeat: no-repeat;
+}
+
 input, select, textarea {
-  font-family: inherit;
-  font-size: 17px;
+  font-family: var(--ตัวเนื้อ);
+  font-size: 16px;
   width: 100%;
-  padding: 9px 10px;
-  border: 1px solid var(--สีขอบ);
-  border-radius: 8px;
-  background: #fff;
+  padding: 11px 13px;
+  border: 2px solid var(--หมึก);
+  border-radius: 6px;
+  background: var(--แผ่นป้าย);
+  color: var(--หมึก);
+  transition: border-color .16s ease-out, box-shadow .16s ease-out;
 }
-textarea { min-height: 110px; resize: vertical; }
-.hint { color: var(--สีจาง); font-size: 15px; margin-top: 4px; }
+input:focus, select:focus, textarea:focus {
+  border-color: var(--ส้มนิรภัย);
+  box-shadow: inset 0 0 0 1px var(--ส้มนิรภัย);
+  outline: none;
+}
+input::placeholder, textarea::placeholder { color: var(--จาง); }
 
-/* ── กล่องข้อความแจ้งเตือน ── */
-.alert { padding: 12px 14px; border-radius: 8px; margin: 12px 0; }
-.alert-warn  { background: #fff8e1; border: 1px solid #ffd54f; color: #6d4c00; }
-.alert-error { background: #fdecea; border: 1px solid #f5b3ad; color: #8b1f1a; }
-.alert-ok    { background: #e8f5e9; border: 1px solid #a5d6a7; color: #1b5e34; }
-.alert-ai    { background: #eef4ff; border: 1px solid #b9ccf5; color: #1a3e7a; }
+/* ข้อมูลที่เป็นตัวเลขและรหัส อ่านเป็นคอลัมน์ได้ จึงใช้ตัวพิมพ์ความกว้างเท่ากัน */
+input[type="date"], input[type="email"], input[type="password"] {
+  font-family: var(--ตัวเลข);
+  font-size: 14px;
+  letter-spacing: -.02em;
+}
+
+textarea { min-height: 128px; resize: vertical; }
+
+.hint { color: var(--จาง); font-size: 14px; margin-top: 6px; }
+
+/* ─────────────────────────────────────────────────────────────
+   กล่องแจ้งเตือน — แถบบนบอกน้ำหนักของเรื่อง
+   ───────────────────────────────────────────────────────────── */
+.alert {
+  padding: 14px 16px;
+  margin: 16px 0;
+  font-size: 15px;
+}
+.alert-warn  { border-top: 7px solid var(--ส้มนิรภัย); }
+.alert-ok    { border-top: 7px solid var(--หมึก); }
+.alert-error {
+  border-top: 7px solid transparent;
+  background-image:
+    var(--แถบเตือน),
+    radial-gradient(circle at 9px 9px, var(--หมึก) 1.6px, transparent 1.7px),
+    radial-gradient(circle at calc(100% - 9px) 9px, var(--หมึก) 1.6px, transparent 1.7px),
+    radial-gradient(circle at 9px calc(100% - 9px), var(--หมึก) 1.6px, transparent 1.7px),
+    radial-gradient(circle at calc(100% - 9px) calc(100% - 9px), var(--หมึก) 1.6px, transparent 1.7px);
+  background-size: 100% 7px, auto, auto, auto, auto;
+  background-position: top left, 0 0, 0 0, 0 0, 0 0;
+  background-repeat: no-repeat;
+  background-origin: border-box;
+}
+
 .hidden { display: none; }
 
-/* ── รายการความเห็น ── */
-.comment { border-left: 4px solid var(--สีขอบ); padding: 6px 0 6px 12px; margin-bottom: 12px; }
-.comment .meta { color: var(--สีจาง); font-size: 15px; }
+/* ─────────────────────────────────────────────────────────────
+   ความเห็นการอนุมัติ — แผ่นป้ายย่อย ชื่อคนกับเวลาอยู่บรรทัดบน
+   ───────────────────────────────────────────────────────────── */
+.comment { padding: 13px 16px; margin-bottom: 12px; }
+.comment .meta {
+  font-family: var(--ตัวหนา);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: .08em;
+  color: var(--จาง);
+  display: block;
+  margin-bottom: 4px;
+}
 
-/* ── กล่องแสดงตัวเลขสรุป ── */
-.stat-row { display: flex; flex-wrap: wrap; gap: 14px; }
+/* ─────────────────────────────────────────────────────────────
+   กล่องตัวเลขสรุป — ช่องเก็บของในคลัง ไม่ใช่การ์ดตัวเลขกลางจอ
+   ───────────────────────────────────────────────────────────── */
+.stat-row { display: flex; flex-wrap: wrap; gap: 16px; }
 .stat {
-  flex: 1 1 200px;
-  background: #fff;
-  border: 1px solid var(--สีขอบ);
-  border-radius: 10px;
-  padding: 18px;
-  text-align: center;
+  flex: 1 1 210px;
+  padding: 18px 20px 16px;
   text-decoration: none;
   color: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: var(--ตัวหนา);
+  font-weight: 600;
+  font-size: 12.5px;
+  letter-spacing: .09em;
+  transition: background-color .16s ease-out;
 }
-.stat:hover { background: #eaf3fa; }
-.stat .number { font-size: 44px; font-weight: 700; line-height: 1.2; }
-
-/* ── รายการข้อมูลในหน้ารายละเอียด ── */
-.field-row { display: flex; flex-wrap: wrap; gap: 4px 10px; padding: 7px 0; border-bottom: 1px dashed var(--สีขอบ); }
-.field-row .k { min-width: 150px; font-weight: 700; }
-
-/* ── มือถือ ── */
-@media (max-width: 640px) {
-  body { font-size: 16px; }
-  .container { padding: 14px 12px 50px; }
-  th, td { padding: 8px 7px; font-size: 15px; }
-  .hide-mobile { display: none; }
-  .navbar .nav-user { margin-left: 0; width: 100%; }
+.stat:hover { background-color: var(--ส้มนิรภัย); }
+.stat .number {
+  font-family: var(--ตัวเลข);
+  font-weight: 700;
+  font-size: 46px;
+  line-height: 1.05;
+  letter-spacing: -.05em;
+  align-self: flex-end;
 }
 
-/* ── US-09: ปุ่มให้ AI ช่วยจัดประเภทการลา — ทุกอย่างที่มาจาก AI
-   ต้องดูต่างจากข้อมูลที่คนกรอกเอง ใช้คลาสขึ้นต้นด้วย ai- ทั้งชุด ── */
-.ai-box { margin-top: 10px; }
+/* ─────────────────────────────────────────────────────────────
+   รายการข้อมูลในหน้ารายละเอียด — ป้าย KEY: VALUE แบบติดลัง
+   ───────────────────────────────────────────────────────────── */
+.field-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  padding: 11px 0;
+  border-bottom: 1px dashed var(--เส้น);
+}
+.field-row:last-child { border-bottom: none; }
+.field-row .k {
+  min-width: 168px;
+  font-family: var(--ตัวหนา);
+  font-weight: 600;
+  font-size: 12.5px;
+  letter-spacing: .09em;
+  color: var(--จาง);
+  padding-top: 3px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   US-09 ปุ่มให้ AI ช่วยจัดประเภทการลา
+   ทุกอย่างที่มาจาก AI ต้องดูต่างจากที่คนกรอกเอง
+   ภาษาของโลกนี้คือ "ป้ายที่ซัพพลายเออร์แขวนมา" — เส้นประ ไม่ใช่เส้นทึบ
+   แปลว่าเป็นของแนบมา ยังไม่ใช่ส่วนหนึ่งของเอกสารจนกว่าคนจะยืนยัน
+   ───────────────────────────────────────────────────────────── */
+.ai-box { margin-top: 14px; }
 
 .btn-ai {
-  background: #6c4fd6;
-  border-color: #6c4fd6;
-  font-size: 15px;
-  padding: 7px 14px;
+  background-color: var(--แผ่นป้าย);
+  background-image: none;
+  border-style: dashed;
+  font-size: 12.5px;
+  padding: 9px 18px 9px 34px;
 }
-.btn-ai:hover { background: #55399e; border-color: #55399e; }
+.btn-ai::before {
+  content: "";
+  position: absolute;
+  left: 13px;
+  top: 50%;
+  width: 11px;
+  height: 11px;
+  margin-top: -5.5px;
+  background: var(--ส้มนิรภัย);
+  border: 1.5px solid var(--หมึก);
+  border-radius: 2px;
+  transform: rotate(45deg);
+}
 
 .ai-pill {
   display: inline-block;
-  margin-top: 8px;
-  margin-left: 8px;
-  padding: 3px 12px;
-  border-radius: 999px;
-  font-size: 13px;
+  margin: 10px 0 0 10px;
+  padding: 3px 14px 3px 22px;
+  font-family: var(--ตัวหนา);
   font-weight: 700;
-  background: #eee8fb;
-  color: #4a2f9e;
-  border: 1px solid #cdbcf2;
+  font-size: 11.5px;
+  letter-spacing: .06em;
+  background-color: var(--ส้มนิรภัย);
+  background-image: radial-gradient(circle at 11px 50%, var(--หมึก) 2px, transparent 2.1px);
+  background-repeat: no-repeat;
+  border: 2px solid var(--หมึก);
+  border-radius: 4px;
+  color: var(--หมึก);
   white-space: nowrap;
 }
 
 .ai-hint {
-  margin: 8px 0 0;
+  margin: 10px 0 0;
   font-size: 14px;
-  color: #4a2f9e;
-  background: #f7f4ff;
-  border: 1px dashed #cdbcf2;
-  border-radius: 8px;
-  padding: 8px 10px;
+  color: var(--หมึก);
+  background: var(--แผ่นป้าย);
+  border: 2px dashed var(--หมึก);
+  border-radius: 6px;
+  padding: 11px 13px;
 }
 .ai-hint.ai-hint-error {
-  color: #8b1f1a;
-  background: #fdecea;
-  border: 1px dashed #f5b3ad;
+  border-color: var(--หมึก);
+  background-color: var(--แผ่นป้าย);
+  background-image: var(--แถบเตือน);
+  background-size: 100% 6px;
+  background-position: top left;
+  background-repeat: no-repeat;
+  padding-top: 16px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   จอแคบ — เน้นจอคอมเป็นหลัก มือถือต้องอ่านได้และกดได้ ไม่ต้องสวยเท่า
+   ───────────────────────────────────────────────────────────── */
+@media (max-width: 720px) {
+  body { font-size: 16px; }
+  .container { padding: 22px 14px 60px; }
+  .navbar { padding: 9px 14px; gap: 5px 14px; border-top-width: 4px; }
+  .navbar .brand { font-size: 15px; padding: 2px 13px; }
+  .navbar a { font-size: 12px; letter-spacing: .06em; }
+  .navbar .nav-user { margin-left: 0; width: 100%; font-size: 12px; }
+  h1 { letter-spacing: -.01em; }
+  .card { padding: 17px 16px; }
+
+  /* ระยะเต็มขอบต้องเท่ากับ padding ของแผ่นป้ายบนจอนี้ ไม่งั้นตารางล้นออกนอกกรอบ
+     จนป้ายสถานะคอลัมน์ขวาสุดโดนตัด */
+  .card > table:only-child {
+    margin: -17px -16px;
+    width: calc(100% + 32px);
+  }
+  .card > div:last-child > table:only-child {
+    margin: 13px -16px -17px;
+    width: calc(100% + 32px);
+  }
+  th, td { padding: 10px 9px; font-size: 14.5px; }
+  .hide-mobile { display: none; }
+  .field-row .k { min-width: 100%; }
+  .stat .number { font-size: 38px; }
+  .btn-row > button, .btn-row > .btn { flex: 1 1 auto; text-align: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+  }
+  button::after, .btn::after { transform: translateX(0); opacity: .12; }
+  .btn-danger::after { opacity: 1; }
 }

@@ -19,7 +19,7 @@
   // ชื่อไฟล์ของหน้าที่กำลังเปิดอยู่ เอาไว้ขีดเส้นใต้เมนูที่ตรงกัน
   var หน้าปัจจุบัน = location.pathname.split("/").pop() || "index.html";
 
-  var html = '<div class="navbar"><span class="brand">🔧 LeaveEasy</span>';
+  var html = '<div class="navbar"><span class="brand">LeaveEasy</span>';
   เมนู.forEach(function (m) {
     var active = m.href === หน้าปัจจุบัน ? ' class="active"' : "";
     html += '<a href="' + m.href + '"' + active + ">" + m.ชื่อ + "</a>";
