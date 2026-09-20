@@ -1,10 +1,10 @@
 {
-  "name": "leaveeasy-start",
+  "name": "leaveeasy-oneshot-anuphan",
   "version": "1.0.0",
   "private": true,
-  "description": "LeaveEasy — จุดเริ่มต้นของใบงาน ADT-RAISE Batch 2 Module 2",
+  "description": "LeaveEasy — Lab 4 สัปดาห์ที่ 9 สร้างรอบเดียวจากสเปก",
   "scripts": {
-    "dev": "serve -l 3000 ."
+    "dev": "serve -l 3100 ."
   },
   "devDependencies": {
     "serve": "^14.2.1"

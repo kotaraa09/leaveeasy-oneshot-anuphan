@@ -146,3 +146,44 @@ textarea { min-height: 110px; resize: vertical; }
   .hide-mobile { display: none; }
   .navbar .nav-user { margin-left: 0; width: 100%; }
 }
+
+/* ── US-09: ปุ่มให้ AI ช่วยจัดประเภทการลา — ทุกอย่างที่มาจาก AI
+   ต้องดูต่างจากข้อมูลที่คนกรอกเอง ใช้คลาสขึ้นต้นด้วย ai- ทั้งชุด ── */
+.ai-box { margin-top: 10px; }
+
+.btn-ai {
+  background: #6c4fd6;
+  border-color: #6c4fd6;
+  font-size: 15px;
+  padding: 7px 14px;
+}
+.btn-ai:hover { background: #55399e; border-color: #55399e; }
+
+.ai-pill {
+  display: inline-block;
+  margin-top: 8px;
+  margin-left: 8px;
+  padding: 3px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  background: #eee8fb;
+  color: #4a2f9e;
+  border: 1px solid #cdbcf2;
+  white-space: nowrap;
+}
+
+.ai-hint {
+  margin: 8px 0 0;
+  font-size: 14px;
+  color: #4a2f9e;
+  background: #f7f4ff;
+  border: 1px dashed #cdbcf2;
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+.ai-hint.ai-hint-error {
+  color: #8b1f1a;
+  background: #fdecea;
+  border: 1px dashed #f5b3ad;
+}

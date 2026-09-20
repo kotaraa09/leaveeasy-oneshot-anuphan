@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ใส่ข้อมูลตัวอย่าง · LeaveEasy</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/nav.js" defer></script>
+</head>
+<body>
+  <div id="nav"></div>
+
+  <div class="container">
+    <h1>ใส่ข้อมูลตัวอย่าง (Seed)</h1>
+    <p class="subtitle">หน้านี้ใช้ครั้งเดียวตอนตั้งระบบ ไม่ใช่หน้าจอสำหรับผู้ใช้งานทั่วไป</p>
+
+    <div class="card">
+      <h2>ก่อนกดปุ่ม ต้องทำ 2 ข้อนี้ก่อน</h2>
+      <ol>
+        <li>เปิด Firebase Console → Firestore Database → Rules
+          แล้วตั้งกฎชั่วคราวเป็นแบบเปิดก่อน เช่น
+          <code>allow read, write: if true;</code>
+          เพราะข้อมูลตัวอย่างใช้รหัสไฟล์ตายตัว (<code>u001</code>, <code>lr001</code> …)
+          ที่ไม่ตรงกับ uid ของบัญชีจริงสักคน จึงเขียนผ่านกฎแบบรายบุคคลใน
+          <code>firestore.rules</code> ไม่ได้
+        </li>
+        <li>กดปุ่มด้านล่างให้เสร็จ แล้ว<strong>นำ firestore.rules ตัวจริงขึ้น Console แทนทันที</strong>
+          ก่อนเปิดใช้งานหน้าอื่นของระบบ — ห้ามปล่อยกฎแบบเปิดค้างไว้
+        </li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <div class="btn-row">
+        <button type="button" id="ปุ่มใส่ข้อมูล">ใส่ข้อมูลตัวอย่างลง Firestore</button>
+      </div>
+      <div id="บันทึกผล" style="margin-top:12px"></div>
+    </div>
+  </div>
+
+  <script src="js/data.js" defer></script>
+  <script type="module" src="js/seed.js"></script>
+</body>
+</html>

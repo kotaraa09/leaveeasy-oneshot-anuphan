@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>แดชบอร์ด · LeaveEasy</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="nav"></div>
+
+  <div class="container">
+    <h1>แดชบอร์ด</h1>
+    <p class="subtitle">สรุปข้อมูลใบลาในระบบ</p>
+
+    <div class="stat-row">
+      <a href="leave-requests.html?status=รอพิจารณา" class="stat" id="statPending">
+        <div class="number">3</div>
+        <div>รอพิจารณา</div>
+      </a>
+      <a href="leave-requests.html?status=อนุมัติ" class="stat" id="statApproved">
+        <div class="number">1</div>
+        <div>อนุมัติ</div>
+      </a>
+      <a href="leave-requests.html?status=ไม่อนุมัติ" class="stat" id="statRejected">
+        <div class="number">1</div>
+        <div>ไม่อนุมัติ</div>
+      </a>
+    </div>
+
+    <div class="card">
+      <h2>5 ใบลาล่าสุด</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>หัวข้อ</th>
+            <th>ประเภทการลา</th>
+            <th>สถานะ</th>
+            <th>ผู้ขอลา</th>
+          </tr>
+        </thead>
+        <tbody id="latestRequestsBody">
+          <tr>
+            <td colspan="4" style="text-align: center; color: #667380;">กำลังโหลดข้อมูล…</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="btn-row">
+      <a class="btn btn-ghost" href="leave-requests.html">← ดูรายการทั้งหมด</a>
+      <a class="btn btn-ghost" href="index.html">← กลับไปหน้าแรก</a>
+    </div>
+  </div>
+
+  <script type="module" src="js/nav.js"></script>
+  <script type="module" src="js/dashboard.js"></script>
+</body>
+</html>

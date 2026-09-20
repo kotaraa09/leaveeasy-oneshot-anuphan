@@ -5,10 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ยื่นใบลาใหม่ · LeaveEasy</title>
   <link rel="stylesheet" href="css/style.css">
-  <script src="js/util.js" defer></script>
-  <script src="js/nav.js" defer></script>
-  <script src="js/data.js" defer></script>
-  <script src="js/new-leave-request.js" defer></script>
 </head>
 <body>
   <div id="nav"></div>
@@ -22,7 +18,7 @@
 
       <form id="ฟอร์มใบลา">
         <label for="title">หัวข้อ</label>
-        <input type="text" id="title" placeholder="เช่น ลาพักร้อนไปเที่ยวกับครอบครัว">
+        <input type="text" id="title" placeholder="เช่น ลาพักร้อนไปเที่ยวกับครอบครัว" required>
 
         <label for="reason">เหตุผลการลา</label>
         <textarea id="reason" placeholder="เล่าเหตุผลสั้น ๆ ให้หัวหน้าเข้าใจ"></textarea>
@@ -31,6 +27,11 @@
         <select id="leaveTypeId">
           <option value="">— เลือกประเภทการลา —</option>
         </select>
+        <div id="aiSuggestionArea" class="ai-box">
+          <button type="button" id="ปุ่มAI" class="btn-ai">ให้ AI ช่วยจัดประเภทการลา</button>
+          <div id="ป้ายAI" class="ai-pill hidden">ข้อเสนอจาก AI — โปรดตรวจสอบก่อนยืนยัน</div>
+          <p id="ข้อความAI" class="ai-hint hidden"></p>
+        </div>
 
         <label for="startDate">วันที่เริ่มลา</label>
         <input type="date" id="startDate">
@@ -45,5 +46,8 @@
       </form>
     </div>
   </div>
+
+  <script type="module" src="js/nav.js"></script>
+  <script type="module" src="js/new-leave-request.js"></script>
 </body>
 </html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>เข้าสู่ระบบ · LeaveEasy</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="nav"></div>
+
+  <div class="container">
+    <h1>เข้าสู่ระบบ</h1>
+    <p class="subtitle">กรอกอีเมลและรหัสผ่านของคุณ</p>
+
+    <div class="card" style="max-width: 400px; margin: 0 auto;">
+      <div id="ข้อความเตือน" class="alert alert-error hidden"></div>
+
+      <form id="ฟอร์มเข้าสู่ระบบ">
+        <label for="email">อีเมล</label>
+        <input type="email" id="email" placeholder="example@mail.com" required>
+
+        <label for="password">รหัสผ่าน</label>
+        <input type="password" id="password" placeholder="รหัสผ่านของคุณ" required>
+
+        <div class="btn-row">
+          <button type="submit" id="ปุ่มเข้าสู่ระบบ">เข้าสู่ระบบ</button>
+        </div>
+      </form>
+
+      <p style="text-align: center; margin-top: 18px;">
+        ยังไม่มีบัญชี? <a href="signup.html">สมัครสมาชิก</a>
+      </p>
+    </div>
+  </div>
+
+  <script type="module" src="js/nav.js"></script>
+  <script type="module" src="js/login.js"></script>
+</body>
+</html>

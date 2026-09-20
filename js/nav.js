@@ -10,7 +10,9 @@
     { href: "index.html",             ชื่อ: "หน้าแรก" },
     { href: "leave-requests.html",    ชื่อ: "รายการใบลา" },
     { href: "new-leave-request.html", ชื่อ: "ยื่นใบลาใหม่" },
-    { href: "leave-types.html",       ชื่อ: "ประเภทการลา" }
+    { href: "leave-types.html",       ชื่อ: "ประเภทการลา" },
+    { href: "dashboard.html",         ชื่อ: "แดชบอร์ด" },
+    { href: "login.html",             ชื่อ: "เข้าสู่ระบบ" }
   ];
 
   // ชื่อไฟล์ของหน้าที่กำลังเปิดอยู่ เอาไว้ขีดเส้นใต้เมนูที่ตรงกัน
